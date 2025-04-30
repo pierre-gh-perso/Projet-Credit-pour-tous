@@ -1,0 +1,7 @@
+# Run de l'app en local
+pip install -r requirements.txt
+streamlit run app.py
+
+# Génération de l'.exe pour l'appli
+pip install pyinstaller
+pyinstaller --onefile app.py
