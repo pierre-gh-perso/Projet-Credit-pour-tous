@@ -1,0 +1,8 @@
+/* Conteneur principal pour la barre de navigation */
+div[data-testid="stToolbar"] {
+    display: none; /* Cache la barre par défaut de Streamlit si besoin */
+}
+
+div.st-emotion-cache-18ni7ap {
+    padding-top: 2rem; /* Ajuste la marge supérieure du contenu principal */
+}

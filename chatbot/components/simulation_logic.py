@@ -73,7 +73,7 @@ def get_loan_proposal(form_data, assets):
         "rate": rate,
         "decision": decision, 
         "monthly_payment": monthly_payment,
-        "total_repaid": total_repaid, # Clé qui manquait
-        "credit_cost": credit_cost,   # Clé qui manquait
+        "total_repaid": total_repaid,
+        "credit_cost": credit_cost,
         "final_dti": final_dti
     }

@@ -1,15 +1,17 @@
 import streamlit as st
 from components.home import render_home
 from components.simulation import render_simulation_page
-from components.dashboard import render_dashboard_page # <-- IMPORTATION
+from components.dashboard import render_dashboard_page
+from components.header import render_header
 
-# Configuration globale
 st.set_page_config(
-    page_title="Crédit pour Tous - Assistant",
+    page_title="Crédit pour Tous",
     page_icon="💼",
     layout="centered",
     initial_sidebar_state="collapsed"
 )
+
+render_header() 
 
 # Initialisation de l’état
 if "page" not in st.session_state:

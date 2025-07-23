@@ -7,7 +7,6 @@ def load_data():
     """Charge les données nettoyées finales."""
     path = "../data/processed/dataset_clean_no_outliers.parquet"
     df = pd.read_parquet(path)
-    # On s'assure que la colonne pour le calcul du défaut existe
     if 'loan_status' in df.columns:
         df['is_default'] = (df['loan_status'] == 'Charged Off')
     return df
@@ -34,7 +33,6 @@ def render_dashboard_page():
 
     st.divider()
 
-    # --- Visualisations Existantes ---
     col5, col6 = st.columns(2)
 
     with col5:
@@ -48,19 +46,10 @@ def render_dashboard_page():
         st.subheader("Répartition par Catégorie Socio-Pro.")
         csp_counts = df['csp_category'].value_counts()
         st.bar_chart(csp_counts)
-        
+    
     st.divider()
 
-    st.subheader("Montant Moyen du Prêt par Grade et Motif")
-    pivot_df = pd.pivot_table(df, values='loan_amnt', index='purpose', columns='grade', aggfunc='mean').sort_index()
-    fig_heatmap = px.imshow(pivot_df, text_auto=True, aspect="auto", color_continuous_scale='Viridis', labels=dict(x="Grade du Prêt", y="Motif du Prêt", color="Montant Moyen (€)"))
-    st.plotly_chart(fig_heatmap, use_container_width=True)
-        
-    st.divider()
-
-    # === NOUVELLES VISUALISATIONS ===
-
-    # 1. Distribution des Montants de Prêts
+    #Distribution des Montants de Prêts
     st.subheader("Distribution des Montants de Prêts")
     fig_hist = px.histogram(
         df,
@@ -73,7 +62,7 @@ def render_dashboard_page():
 
     st.divider()
 
-    # 2. Taux de Défaut par Grade et Durée
+    #Taux de Défaut par Grade et Durée
     st.subheader("Taux de Défaut par Grade et Durée du Prêt")
     df['term'] = df['term'].astype('str') # Pour un meilleur affichage
     default_by_grade_term = df.groupby(['grade', 'term'])['is_default'].mean().unstack() * 100
@@ -84,25 +73,3 @@ def render_dashboard_page():
         labels={'value': 'Taux de Défaut (%)', 'grade': 'Grade', 'term': 'Durée (mois)'}
     )
     st.plotly_chart(fig_bar_grouped, use_container_width=True)
-
-    st.divider()
-
-    # 3. Relation entre Revenu et Montant du Prêt
-    st.subheader("Relation Revenu Annuel vs. Montant du Prêt")
-    sample_df = df.sample(n=5000, random_state=42)
-    fig_scatter = px.scatter(
-        sample_df,
-        x="annual_inc",
-        y="loan_amnt",
-        color="grade",
-        title="Montant du Prêt en fonction du Revenu Annuel",
-        labels={'annual_inc': 'Revenu Annuel (€)', 'loan_amnt': 'Montant du Prêt (€)', 'grade': 'Grade'},
-        category_orders={"grade": sorted(df['grade'].unique())}
-    )
-    st.plotly_chart(fig_scatter, use_container_width=True)
-    
-    st.divider()
-
-    if st.button("⬅️ Retour à l'accueil"):
-        st.session_state.page = "home"
-        st.rerun()

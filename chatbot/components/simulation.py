@@ -1,26 +1,14 @@
-# Fichier : components/simulation.py
-
 import streamlit as st
 from .simulation_logic import load_simple_proxy_model, get_loan_proposal
 from .simulation_ui import render_questionnaire, display_results
 
 def render_simulation_page():
-    st.title("🧮 Simulateur de Prêt Interactif")
-    
-    # === MODIFICATION : Ajout du bouton de retour ===
-    if st.button("⬅️ Retour à l'accueil"):
-        # On réinitialise l'état du questionnaire avant de partir
-        st.session_state.step = 0
-        st.session_state.answers = {}
-        st.session_state.run_simulation = False
-        # On change de page
-        st.session_state.page = "home"
-        st.rerun()
-    
+    st.title("Simulateur de Prêt")
     st.divider()
-    # ===============================================
-
-    # --- Initialisation de l'état du questionnaire ---
+    st.markdown("""
+        Ce simulateur permet de tester l'éligibilité d'un scénario de prêt en fonction des données du client.
+        Répondez aux questions ci-dessous pour obtenir une proposition personnalisée.
+    """)
     if 'step' not in st.session_state:
         st.session_state.step = 0
     if 'answers' not in st.session_state:
@@ -31,7 +19,6 @@ def render_simulation_page():
     assets = load_simple_proxy_model()
     if not assets: return
 
-    # --- Logique d'affichage ---
     if st.session_state.run_simulation:
         form_data = st.session_state.answers
         

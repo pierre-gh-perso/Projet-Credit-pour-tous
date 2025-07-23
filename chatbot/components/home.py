@@ -1,7 +1,6 @@
 import streamlit as st
 
 def render_home():
-    st.title("💼 Crédit pour Tous")
     st.markdown("""
         Bienvenue dans l’assistant intelligent de **Crédit pour Tous**. 
         Utilisez les outils ci-dessous pour explorer les crédits existants ou simuler un nouveau scénario.
@@ -12,7 +11,6 @@ def render_home():
     with col1:
         st.subheader("📊 Dashboard des Prêts")
         st.markdown("Consultez les indicateurs clés et les statistiques des prêts enregistrés.")
-        # --- MODIFICATION ICI ---
         if st.button("🔍 Afficher le Dashboard"):
             st.session_state.page = "dashboard"
             st.rerun()
